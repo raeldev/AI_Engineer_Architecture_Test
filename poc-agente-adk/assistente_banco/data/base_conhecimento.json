@@ -1,0 +1,32 @@
+[
+  {
+    "id": "kb-001",
+    "produto": "Cartão Atacadão",
+    "categoria": "publico",
+    "conteudo": "O aumento de limite do Cartão Atacadão exige pelo menos 6 meses de conta ativa e ausência de atraso nos últimos 3 meses. A análise é automática e o resultado sai em até 2 dias úteis."
+  },
+  {
+    "id": "kb-002",
+    "produto": "Crediário Carrefour",
+    "categoria": "publico",
+    "conteudo": "O crediário Carrefour permite parcelamento de compras em até 24x, com taxa de juros que varia conforme o perfil de crédito do cliente, consultada no momento da compra."
+  },
+  {
+    "id": "kb-003",
+    "produto": "Seguro prestamista",
+    "categoria": "publico",
+    "conteudo": "O seguro prestamista cobre o saldo devedor do crediário em caso de morte, invalidez permanente ou desemprego involuntário do titular, respeitada a carência de 60 dias."
+  },
+  {
+    "id": "kb-004",
+    "produto": "Bloqueio de cartão",
+    "categoria": "publico",
+    "conteudo": "O cliente pode solicitar o bloqueio do cartão a qualquer momento em caso de perda, roubo ou suspeita de fraude. O desbloqueio exige validação de identidade pelo app ou central."
+  },
+  {
+    "id": "kb-005",
+    "produto": "Estratégia de pricing Q4 2026",
+    "categoria": "interno",
+    "conteudo": "Nota interna: margem-alvo de juros do crediário para o Q4 2026 foi revisada para cima em 1,2pp. Não divulgar externamente antes do comitê de produto."
+  }
+]

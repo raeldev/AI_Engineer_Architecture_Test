@@ -1,0 +1,43 @@
+digraph Container {
+  rankdir=LR;
+  splines=polyline;
+  nodesep=0.45;
+  ranksep=1.15;
+  pad="0.25";
+  bgcolor="white";
+  fontname="Helvetica";
+  labelloc="t";
+  label="Diagrama de Container (C4 — Nível 2) — Assistente Agêntico de Relacionamento";
+  fontsize=18;
+  fontcolor="#202124";
+
+  node [fontname="Helvetica", fontsize=12, shape=box, style="rounded,filled", margin="0.22,0.14", color="#3c4043", penwidth=1];
+  edge [fontname="Helvetica", fontsize=9.5, color="#5f6368", arrowsize=0.7, penwidth=1.0];
+
+  Cliente      [label="Cliente", fillcolor="#174EA6", fontcolor=white];
+  Atendente    [label="Atendente\nHumano", fillcolor="#174EA6", fontcolor=white];
+  Gateway      [label="Gateway Conversacional\nPython/FastAPI + Dialogflow CX", fillcolor="#1A73E8", fontcolor=white];
+  Orquestrador [label="Orquestrador\nde Agentes (ADK)", fillcolor="#1A73E8", fontcolor=white, penwidth=2.2];
+  Roteador     [label="Roteador\nde Modelos", fillcolor="#4285F4", fontcolor=white];
+  Memoria      [label="Memória de Conversa\n(Cloud Spanner)", shape=cylinder, fillcolor="#4285F4", fontcolor=white];
+  RAG          [label="Motor RAG/GraphRAG", fillcolor="#34A853", fontcolor=white];
+  Indices      [label="Índices de Conhecimento\n(Spanner: vetor + grafo)", shape=cylinder, fillcolor="#34A853", fontcolor=white];
+  Guardrails   [label="Camada de Guardrails", fillcolor="#EA4335", fontcolor=white];
+  LLM          [label="LLM(s)", fillcolor="#4285F4", fontcolor=white];
+  ApiGateway   [label="API Gateway", fillcolor="#FBBC04", fontcolor="#202124"];
+
+  CoreBancario    [label="Core Bancário", fillcolor="#E8EAED", fontcolor="#202124"];
+  Observabilidade [label="Observabilidade", fillcolor="#E8EAED", fontcolor="#202124"];
+
+  {rank=same; Roteador; Memoria; Guardrails; RAG; ApiGateway; Observabilidade; Atendente}
+  {rank=same; LLM; Indices; CoreBancario}
+
+  Cliente -> Gateway -> Orquestrador;
+  Orquestrador -> Roteador -> LLM;
+  Orquestrador -> Memoria [dir=both, arrowsize=0.6];
+  Orquestrador -> Guardrails [dir=both, arrowsize=0.6];
+  Orquestrador -> RAG -> Indices;
+  Orquestrador -> ApiGateway -> CoreBancario;
+  Orquestrador -> Observabilidade;
+  Orquestrador -> Atendente [label="escala"];
+}

@@ -1,0 +1,55 @@
+digraph Fluxo {
+  rankdir=TB;
+  splines=polyline;
+  nodesep=0.45;
+  ranksep=0.55;
+  pad="0.25";
+  bgcolor="white";
+  fontname="Helvetica";
+  labelloc="t";
+  label="Fluxo Agêntico — da mensagem à resposta ou escalonamento";
+  fontsize=16;
+  fontcolor="#202124";
+
+  node [fontname="Helvetica", fontsize=11, shape=box, style="rounded,filled", margin="0.16,0.1", color="#3c4043", penwidth=1];
+  edge [fontname="Helvetica", fontsize=9, color="#5f6368", arrowsize=0.65, penwidth=1.0];
+
+  Msg        [label="Mensagem\ndo cliente", fillcolor="#174EA6", fontcolor=white];
+  GEntrada   [label="Guardrail de\nentrada\n(PII / injection)", shape=diamond, fillcolor="#FBBC04", fontcolor="#202124", fontsize=10];
+  Recusa     [label="Recusa segura", fillcolor="#E8EAED", fontcolor="#202124"];
+  Classif    [label="Classificador\nde intenção", fillcolor="#4285F4", fontcolor=white];
+  TipoInt    [label="Tipo de\nintenção?", shape=diamond, fillcolor="#FBBC04", fontcolor="#202124", fontsize=10];
+  RAG        [label="RAG /\nGraphRAG", fillcolor="#34A853", fontcolor=white];
+  Sintese    [label="Síntese da\nresposta", fillcolor="#34A853", fontcolor=white];
+  ConfRisco  [label="Confiança\n+ risco?", shape=diamond, fillcolor="#FBBC04", fontcolor="#202124", fontsize=10];
+  ExecApi    [label="Executa via\nAPI Gateway", fillcolor="#4285F4", fontcolor=white];
+  GSaida     [label="Guardrail\nde saída", shape=diamond, fillcolor="#FBBC04", fontcolor="#202124", fontsize=10];
+  Responde   [label="Responde\nao cliente", fillcolor="#174EA6", fontcolor=white];
+  Memoria    [label="Atualiza memória\ncurto/longo prazo", shape=cylinder, fillcolor="#4285F4", fontcolor=white, fontsize=10];
+  Escala     [label="Escala para\natendente humano", fillcolor="#EA4335", fontcolor=white];
+
+  {rank=same; GEntrada}
+  {rank=same; Classif}
+  {rank=same; TipoInt}
+  {rank=same; RAG; ConfRisco}
+  {rank=same; Sintese; ExecApi; Escala}
+  {rank=same; GSaida}
+  {rank=same; Responde}
+  {rank=same; Memoria}
+
+  Msg -> GEntrada;
+  GEntrada -> Recusa [label="bloqueado"];
+  GEntrada -> Classif [label="aprovado"];
+  Classif -> TipoInt;
+  TipoInt -> RAG [label="dúvida"];
+  TipoInt -> ConfRisco [label="transacional"];
+  TipoInt -> Escala [label="fora de escopo"];
+  RAG -> Sintese;
+  ConfRisco -> ExecApi [label="baixo risco"];
+  ConfRisco -> Escala [label="alto risco"];
+  Sintese -> GSaida;
+  ExecApi -> GSaida;
+  GSaida -> Responde [label="aprovado"];
+  GSaida -> Escala [label="reprovado"];
+  Responde -> Memoria;
+}

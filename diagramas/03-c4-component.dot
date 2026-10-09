@@ -1,0 +1,44 @@
+digraph Component {
+  rankdir=LR;
+  splines=polyline;
+  nodesep=0.45;
+  ranksep=1.15;
+  pad="0.25";
+  bgcolor="white";
+  fontname="Helvetica";
+  labelloc="t";
+  label="Diagrama de Componentes (C4 — Nível 3) — Núcleo do Orquestrador de Agentes";
+  fontsize=17;
+  fontcolor="#202124";
+
+  node [fontname="Helvetica", fontsize=12, shape=box, style="rounded,filled", margin="0.22,0.14", color="#3c4043", penwidth=1];
+  edge [fontname="Helvetica", fontsize=9.5, color="#5f6368", arrowsize=0.7, penwidth=1.0];
+
+  Planejador   [label="Planejador\n(ADK Planner)", fillcolor="#1A73E8", fontcolor=white, penwidth=2.2];
+  Politica     [label="Política de Decisão\nresponder / transacionar / escalar", fillcolor="#4285F4", fontcolor=white];
+  Executor     [label="Executor de\nFerramentas (Tool Calling)", fillcolor="#4285F4", fontcolor=white];
+  MemCurto     [label="Memória de\nCurto Prazo", shape=cylinder, fillcolor="#4285F4", fontcolor=white];
+  MemLongo     [label="Memória de\nLongo Prazo", shape=cylinder, fillcolor="#4285F4", fontcolor=white];
+  GuardrailHook[label="Hook de\nGuardrails", fillcolor="#EA4335", fontcolor=white];
+  Escalonamento[label="Gestor de\nEscalonamento", fillcolor="#4285F4", fontcolor=white];
+
+  RAGext    [label="Motor RAG/GraphRAG\n(serviço externo)", fillcolor="#E8EAED", fontcolor="#202124"];
+  ApiGwExt  [label="API Gateway\n(serviço externo)", fillcolor="#E8EAED", fontcolor="#202124"];
+  ObsExt    [label="Observabilidade\n(serviço externo)", fillcolor="#E8EAED", fontcolor="#202124"];
+  Humano    [label="Atendente\nHumano", fillcolor="#174EA6", fontcolor=white];
+
+  {rank=same; Politica; MemCurto; MemLongo; GuardrailHook; Escalonamento; ObsExt}
+  {rank=same; Executor; Humano}
+  {rank=same; RAGext; ApiGwExt}
+
+  Planejador -> Politica;
+  Planejador -> MemCurto [dir=both, arrowsize=0.6];
+  Planejador -> MemLongo [dir=both, arrowsize=0.6];
+  Planejador -> GuardrailHook [dir=both, arrowsize=0.6];
+  Planejador -> ObsExt;
+  Politica -> Executor;
+  Politica -> Escalonamento [label="baixa confiança"];
+  Executor -> RAGext;
+  Executor -> ApiGwExt;
+  Escalonamento -> Humano;
+}

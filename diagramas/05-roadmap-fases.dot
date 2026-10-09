@@ -1,0 +1,47 @@
+digraph Roadmap {
+  rankdir=LR;
+  splines=polyline;
+  nodesep=0.5;
+  ranksep=0.7;
+  pad="0.3";
+  bgcolor="white";
+  fontname="Helvetica";
+  labelloc="t";
+  label="Roadmap de implantação em fases";
+  fontsize=17;
+  fontcolor="#202124";
+
+  node [fontname="Helvetica", fontsize=11, shape=box, style="rounded,filled", margin="0.18,0.14"];
+  edge [fontname="Helvetica", fontsize=10, color="#3c4043", arrowsize=0.8, penwidth=1.4];
+
+  subgraph cluster_f1 {
+    label="Fase 1 — Shadow Mode";
+    style="rounded,filled"; fillcolor="#E8F0FE"; color="#174EA6"; fontsize=12; fontcolor="#174EA6";
+    F1a [label="Agente roda em paralelo,\nsem expor resposta ao cliente", fillcolor="#174EA6", fontcolor=white, color="#174EA6"];
+    F1b [label="Promove se: acurácia ≥ 90%\nvs. atendente humano", fillcolor=white, color="#174EA6", fontcolor="#174EA6"];
+    F1a -> F1b [style=invis];
+  }
+  subgraph cluster_f2 {
+    label="Fase 2 — Assistido";
+    style="rounded,filled"; fillcolor="#E6F4EA"; color="#34A853"; fontsize=12; fontcolor="#1E8E3E";
+    F2a [label="Agente sugere resposta,\natendente aprova ou edita", fillcolor="#34A853", fontcolor=white, color="#34A853"];
+    F2b [label="Promove se: ≥ 80% das sugestões\naceitas sem edição", fillcolor=white, color="#34A853", fontcolor="#1E8E3E"];
+    F2a -> F2b [style=invis];
+  }
+  subgraph cluster_f3 {
+    label="Fase 3 — Autônomo Restrito";
+    style="rounded,filled"; fillcolor="#FEF7E0"; color="#F9AB00"; fontsize=12; fontcolor="#B06000";
+    F3a [label="Responde sozinho, só\ntransações de baixo risco", fillcolor="#F9AB00", fontcolor=white, color="#F9AB00"];
+    F3b [label="Promove se: CSAT estável\ne zero incidentes críticos", fillcolor=white, color="#F9AB00", fontcolor="#B06000"];
+    F3a -> F3b [style=invis];
+  }
+  subgraph cluster_f4 {
+    label="Fase 4 — Autônomo Escalado";
+    style="rounded,filled"; fillcolor="#FCE8E6"; color="#EA4335"; fontsize=12; fontcolor="#C5221F";
+    F4a [label="Amplia escopo de transações\ne volume para milhões/mês", fillcolor="#EA4335", fontcolor=white, color="#EA4335"];
+  }
+
+  F1b -> F2a;
+  F2b -> F3a;
+  F3b -> F4a;
+}

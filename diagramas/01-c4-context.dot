@@ -1,0 +1,44 @@
+digraph Context {
+  rankdir=LR;
+  splines=polyline;
+  nodesep=0.65;
+  ranksep=1.3;
+  pad="0.25";
+  bgcolor="white";
+  fontname="Helvetica";
+  labelloc="t";
+  label="Diagrama de Contexto (C4 — Nível 1) — Assistente Agêntico de Relacionamento";
+  fontsize=18;
+  fontcolor="#202124";
+
+  node [fontname="Helvetica", fontsize=13, shape=box, style="rounded,filled", margin="0.28,0.18", color="#3c4043", penwidth=1];
+  edge [fontname="Helvetica", fontsize=10.5, color="#5f6368", arrowsize=0.75, penwidth=1.1];
+
+  Cliente [label="Cliente do Banco\n(WhatsApp / App)", fillcolor="#174EA6", fontcolor=white];
+  Assistente [label="Assistente Agêntico\nde Relacionamento", fillcolor="#1A73E8", fontcolor=white, penwidth=2];
+  Atendente [label="Atendente\nHumano", fillcolor="#174EA6", fontcolor=white];
+
+  subgraph cluster_sistemas {
+    label="Sistemas do banco (fora do escopo desta proposta)";
+    style="dashed";
+    color="#9aa0a6";
+    fontsize=11.5;
+    fontcolor="#5f6368";
+    margin=18;
+
+    CoreBancario       [label="Core Bancário\nconta, cartão, crédito, Pix", fillcolor="#E8EAED", fontcolor="#202124"];
+    BaseConhecimento   [label="Base de Conhecimento\nprodutos, políticas, normativos", fillcolor="#E8EAED", fontcolor="#202124"];
+    IAM                [label="IAM / Antifraude\n/ PLD-FT", fillcolor="#E8EAED", fontcolor="#202124"];
+    Observabilidade    [label="Observabilidade\nCorporativa (SIEM/APM)", fillcolor="#E8EAED", fontcolor="#202124"];
+
+    {rank=same; CoreBancario; BaseConhecimento; IAM; Observabilidade}
+  }
+
+  Cliente -> Assistente [label="mensagens"];
+  Assistente -> Atendente [label="escala"];
+  Assistente -> CoreBancario [label="executa transação"];
+  Assistente -> BaseConhecimento [label="consulta (RAG/GraphRAG)"];
+  Assistente -> IAM [label="valida identidade/risco"];
+  Assistente -> Observabilidade [label="traces e custo"];
+  Atendente -> Cliente [label="assume atendimento", style=dashed, constraint=false];
+}
